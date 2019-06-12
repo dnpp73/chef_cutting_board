@@ -12,7 +12,7 @@ RUN apt-get update \
     && rm -rf /usr/share/man/* /usr/share/groff/* /usr/share/info/* \
     && rm -rf /usr/share/lintian/* /usr/share/linda/* /var/cache/man/*
 
-RUN mkdir /var/run/sshd
+RUN mkdir /var/run/sshd /root/.ssh
 RUN echo 'root:password' | chpasswd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
@@ -27,7 +27,9 @@ RUN echo 'ubuntu:ubuntu' | chpasswd
 RUN usermod -aG sudo ubuntu
 RUN chsh -s /bin/bash ubuntu
 
-RUN touch /home/ubuntu/.sudo_as_admin_successful && chown ubuntu:ubuntu /home/ubuntu/.sudo_as_admin_successful
+RUN mkdir /home/ubuntu/.ssh \
+    && touch /home/ubuntu/.sudo_as_admin_successful \
+    && chown ubuntu:ubuntu /home/ubuntu/.ssh /home/ubuntu/.sudo_as_admin_successful
 
 # no password for sudo
 RUN sed -i 's/%sudo\tALL=(ALL:ALL) ALL/%sudo\tALL=(ALL:ALL) NOPASSWD:ALL/' /etc/sudoers
