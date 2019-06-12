@@ -24,9 +24,11 @@ Just type `./stop.sh`
 - ubuntu -> `ubuntu`
 
 
-## もっと便利に使いたいんだけど…
+## `authorized_keys` をマウントしてるよ
 
-しらんけど `~/.ssh/authorized_keys` とかを read only(ro) で `-v` 使ってマウントとかすればいいんじゃないかな。
+お手元の Docker 実行環境の `"${HOME}/.ssh/authorized_keys"` があったらコンテナ内の root と ubuntu 部分に読み込み専用でマウントしてるから公開鍵認証で入れるよ。
+
+地味にシンボリックリンクかどうかのチェックまでしてて、そうだったら `readlink` までしてるからちゃんと使えると思うよ。
 
 
 ## Ubuntu 16.04 だけなの？
