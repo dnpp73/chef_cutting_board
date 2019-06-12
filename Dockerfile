@@ -27,5 +27,10 @@ RUN echo 'ubuntu:ubuntu' | chpasswd
 RUN usermod -aG sudo ubuntu
 RUN chsh -s /bin/bash ubuntu
 
+RUN touch /home/ubuntu/.sudo_as_admin_successful && chown ubuntu:ubuntu /home/ubuntu/.sudo_as_admin_successful
+
+# no password for sudo
+RUN sed -i 's/%sudo\tALL=(ALL:ALL) ALL/%sudo\tALL=(ALL:ALL) NOPASSWD:ALL/' /etc/sudoers
+
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
