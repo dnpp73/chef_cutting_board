@@ -29,17 +29,22 @@ fi
 
 # -P で EXPOSE 指定したコンテナの露出ポートをホスト側に公開出来る。割り当てはランダム。
 # -d でデタッチモード指定した場合、 --rm の指定は併用できないよ。
+# コンテナ内で systemd を動かす時に privileged が本当に必要なのか https://qiita.com/shusugmt/items/92ece6874ba5aeff2b41 あたりに情報があった。
+# --cap-add sys_admin --security-opt seccomp:unconfined で行けるらしいが環境依存なのか Docker for Mac 2.0.4.1 の Engine: 19.03.0-beta3 ではダメでした。
 AUTHORIZED_KEYS_PATH="${HOME}/.ssh/authorized_keys"
 if [ -s "${AUTHORIZED_KEYS_PATH}" ]; then
     if [ -L "${AUTHORIZED_KEYS_PATH}" ]; then
         AUTHORIZED_KEYS_PATH=$(readlink "${AUTHORIZED_KEYS_PATH}")
     fi
     docker container run -d -P --name "${CONTAINER_NAME}" \
+    --privileged \
     -v "$AUTHORIZED_KEYS_PATH":/root/.ssh/authorized_keys:ro \
     -v "$AUTHORIZED_KEYS_PATH":/home/ubuntu/.ssh/authorized_keys:ro \
     "${IMAGE}":latest > /dev/null
 else
-    docker container run -d -P --name "${CONTAINER_NAME}" "${IMAGE}":latest > /dev/null
+    docker container run -d -P --name "${CONTAINER_NAME}" \
+    --privileged \
+    "${IMAGE}":latest > /dev/null
 fi
 
 echo "[INFO] '${CONTAINER_NAME}' container now running."

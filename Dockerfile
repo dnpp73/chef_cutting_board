@@ -34,5 +34,10 @@ RUN mkdir /home/ubuntu/.ssh \
 # no password for sudo
 RUN sed -i 's/%sudo\tALL=(ALL:ALL) ALL/%sudo\tALL=(ALL:ALL) NOPASSWD:ALL/' /etc/sudoers
 
+# need to use systemd in container...
+# VOLUME [ "/sys/fs/cgroup" ]
+
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+
+ENTRYPOINT [ "/sbin/init" ]
+# CMD ["/usr/sbin/sshd", "-D"]
