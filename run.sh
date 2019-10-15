@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -Ceu
 
 IMAGE='sshd_server:14.04'
 CONTAINER_NAME='chef_cutting_board'
@@ -22,8 +22,8 @@ fi
 # docker image build fallback
 if ! docker image inspect "${IMAGE}" > /dev/null 2>&1 ; then
     echo "[INFO] '${IMAGE}' docker image not found. running \`./build.sh\` ..."
-    C_DIR=$(cd $(dirname "$0"); pwd)
-    ${C_DIR}/build.sh > /dev/null
+    C_DIR=$(cd "$(dirname "$0")" || exit 1; pwd)
+    "${C_DIR}/build.sh" > /dev/null
     echo "[INFO] \`docker image build\` finished."
 fi
 

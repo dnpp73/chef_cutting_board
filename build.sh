@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -Ceu
 
 IMAGE='sshd_server'
 

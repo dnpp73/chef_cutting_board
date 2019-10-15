@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -Ceu
 
 CONTAINER_NAME='chef_cutting_board'
 
