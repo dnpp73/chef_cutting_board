@@ -2,7 +2,7 @@
 
 set -eu
 
-IMAGE='sshd_server'
+IMAGE='sshd_server:14.04'
 CONTAINER_NAME='chef_cutting_board'
 
 function print_ssh_command() {
@@ -40,11 +40,11 @@ if [ -s "${AUTHORIZED_KEYS_PATH}" ]; then
     --privileged \
     -v "$AUTHORIZED_KEYS_PATH":/root/.ssh/authorized_keys:ro \
     -v "$AUTHORIZED_KEYS_PATH":/home/ubuntu/.ssh/authorized_keys:ro \
-    "${IMAGE}":latest > /dev/null
+    "${IMAGE}" > /dev/null
 else
     docker container run -d -P --name "${CONTAINER_NAME}" \
     --privileged \
-    "${IMAGE}":latest > /dev/null
+    "${IMAGE}" > /dev/null
 fi
 
 echo "[INFO] '${CONTAINER_NAME}' container now running."
