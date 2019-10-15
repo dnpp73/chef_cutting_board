@@ -47,5 +47,12 @@ else
     "${IMAGE}" > /dev/null
 fi
 
+if ! docker container inspect chef_cutting_board > /dev/null 2>&1 ; then
+    echo "[ERROR] failed to run '${CONTAINER_NAME}' container." 1>&2
+    exit 1
+fi
+
+docker container exec "${CONTAINER_NAME}" service ssh start
+
 echo "[INFO] '${CONTAINER_NAME}' container now running."
 print_ssh_command
