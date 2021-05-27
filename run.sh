@@ -2,7 +2,7 @@
 
 set -Ceu
 
-IMAGE='sshd_server:14.04'
+IMAGE='sshd_server:18.04'
 CONTAINER_NAME='chef_cutting_board'
 
 function print_ssh_command() {

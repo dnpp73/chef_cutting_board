@@ -1,9 +1,9 @@
-FROM ubuntu:14.04
+FROM ubuntu:18.04
 
 # https://docs.docker.com/engine/examples/running_ssh_service/
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends sudo openssh-server ca-certificates curl wget \
+    && apt-get install -y --no-install-recommends init sudo openssh-server ca-certificates curl wget \
     # Cleaning
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
@@ -40,6 +40,8 @@ RUN sed -i 's/%sudo\tALL=(ALL:ALL) ALL/%sudo\tALL=(ALL:ALL) NOPASSWD:ALL/' /etc/
 # VOLUME [ "/sys/fs/cgroup" ]
 
 EXPOSE 22
+
+STOPSIGNAL SIGRTMIN+3
 
 ENTRYPOINT [ "/sbin/init" ]
 # CMD ["/usr/sbin/sshd", "-D"]
